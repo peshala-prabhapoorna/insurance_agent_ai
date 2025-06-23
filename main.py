@@ -3,7 +3,9 @@ import os
 
 from servers import ServerProcess
 
+from agents import set_default_openai_key
 from agents.mcp import MCPServerSse, MCPServerStdio
+from dotenv import load_dotenv
 from planner_agent import create_insurance_agents
 from voice_io import continuous_voice_conversation
 
@@ -39,4 +41,6 @@ async def main():
 
 
 if __name__ == "__main__":
+    load_dotenv()
+    set_default_openai_key(os.environ.get("OPENAI_API_KEY"))
     asyncio.run(main())
