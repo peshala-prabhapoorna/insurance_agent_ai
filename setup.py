@@ -4,7 +4,7 @@ import warnings
 
 warnings.filterwarnings("ignore", category=SyntaxWarning)
 
-async def wait_for_server_ready(port: int = 8000, timeout: float = 10) -> None:
+async def wait_for_server_ready(port: int = 8000, timeout: float = 120) -> None:
     """Wait for SSE server to be ready"""
     start = time.time()
     while time.time() - start < timeout:

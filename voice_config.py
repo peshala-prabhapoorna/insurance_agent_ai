@@ -13,7 +13,7 @@ AUDIO_CONFIG = {
     "dtype": "int16",
     "blocksize": 2400,
     "silence_threshold": 500,
-    "silence_duration": 1.5,
+    "silence_duration": 4,
     "min_speech_duration": 0.5,
 }
 
