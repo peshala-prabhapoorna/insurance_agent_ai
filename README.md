@@ -1,4 +1,4 @@
-# MCP‑Powered Agentic Voice Framework 🎙️🤖
+# MCP‑Powered Insurance Voice Agent 🎙️🤖
 
 An end-to-end modular voice agent built using the OpenAI Agents SDK and the Model Context Protocol (MCP). This framework demonstrates how to construct robust, voice-enabled conversational agents that orchestrate tools like RAG, web search, and SQLite via MCP.
 
