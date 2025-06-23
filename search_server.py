@@ -10,6 +10,59 @@ mcp = FastMCP("Search Server")
 _vector_store_id = ""
 
 
+def _run_rag(query: str) -> str:
+    """Do a search for answers within the knowlege base and internal documents
+    of the user.
+    Args:
+        query: The user query
+    """
+    results = client.vector_stores.search(
+        vector_store_id=_vector_store_id,
+        query=query,
+        rewrite_query=True
+    )
+    return results.data[0].content[0].text
+
+
+def _summarize_rag_response(rag_output: str) -> str:
+    """Summarize the RAG response using GPT-4
+    Args:
+        rag_output: the RAG response
+    """
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        tools=[{"type": "web_search_preview"}],
+        input="Summarize the following text concisely \n\n" + rag_output
+    )
+    return response.output_text
+
+
+@mcp.tool()
+def generate_rag_output(query: str) -> str:
+    """Generate a summarized RAG output for a given query
+    Args:
+        query: The user query
+    """
+    print("[debug-server] generate_rag_output: ", query)
+    rag_output = _run_rag(query)
+    return _summarize_rag_response(rag_output)
+
+
+@mcp.tool()
+def run_web_search(query: str) -> str:
+    """Run a web search for the given query.
+    Args:
+        query: The user query
+    """
+    print("[debug-server] run_web_search: ", query)
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        tools=[{"type": "web_search_preview"}],
+        input=query
+    )
+    return response.output_text
+
+
 def index_documents(directory: str):
     """Index the documents in the given directory to the vector store
     Args:
