@@ -41,7 +41,7 @@ You’ll learn how to:
 
 ```bash
 # Python dependencies
-pip install asyncio ffmpeg ffprobe mcp openai openai-agents pydub scipy sounddevice uv nest_asyncio --quiet
+pip install asyncio ffmpeg ffprobe mcp openai openai-agents pydub scipy sounddevice uv nest_asyncio python-dotenv --quiet
 pip install "openai-agents[voice]" --quiet
 ````
 
