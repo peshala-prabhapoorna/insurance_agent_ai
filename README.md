@@ -2,7 +2,6 @@
 
 An end-to-end modular voice agent built using the OpenAI Agents SDK and the Model Context Protocol (MCP). This framework demonstrates how to construct robust, voice-enabled conversational agents that orchestrate tools like RAG, web search, and SQLite via MCP.
 
----
 
 ## 🌐 Overview
 
@@ -22,7 +21,6 @@ You’ll learn how to:
 4. Synthesize the agent’s response and convert it to audio
 5. Stream voice responses back to the user
 
----
 
 ## 🔧 Features
 
@@ -35,7 +33,6 @@ You’ll learn how to:
 - **Insurance Demo**: Insurance-advisory agent showcases real-world context
 - **Low Latency Voice Models**: Uses `gpt-4o-transcribe` (STT) and `gpt-4o-mini-tts` (TTS) by default
 
----
 
 ## 📦 Installation
 
@@ -45,7 +42,6 @@ pip install asyncio ffmpeg ffprobe mcp openai openai-agents pydub scipy sounddev
 pip install "openai-agents[voice]" --quiet
 ````
 
----
 
 ## ⚙️ Setup
 
@@ -57,7 +53,6 @@ pip install "openai-agents[voice]" --quiet
 
 2. Ensure `ffmpeg` is available on your system PATH.
 
----
 
 ## 🚀 Running the Voice Agent
 
@@ -78,7 +73,6 @@ It will:
 
 Interrupt with `Ctrl+C` to exit gracefully.
 
----
 
 ## 🧭 Architecture
 
@@ -93,28 +87,22 @@ Interrupt with `Ctrl+C` to exit gracefully.
      [Speakers]
 ```
 
----
 
 ## 🧪 Example
 
-> **User (voice):** “Can you tell me what’s covered under my home insurance policy?”
-> **Agent (voice):** “Sure. Your policy covers fire damage, theft, and water damage up to \$150,000… \[continues]”
+**User (voice):** “Can you tell me what’s covered under my home insurance policy?”
+**Agent (voice):** “Sure. Your policy covers fire damage, theft, and water damage up to \$150,000… \[continues]”
 
----
 
 ## 📄 License
 
 MIT License — see the [LICENSE](LICENSE) file.
 
----
 
 ## 📚 References
 
-* MCP-powered voice agent tutorial from OpenAI Cookbook ([cookbook.openai.com][3])
-* Model Context Protocol details&#x20;
-* Related tutorial: “Building a Voice Assistant with the Agents SDK” ([cookbook.openai.com][4])
+* MCP-powered voice agent tutorial from OpenAI Cookbook ([cookbook.openai.com](https://cookbook.openai.com/examples/partners/mcp_powered_voice_agents/mcp_powered_agents_cookbook))
 
----
 
 ## 🚩 Getting Help
 
