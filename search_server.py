@@ -1,13 +1,14 @@
 import os
-from dotenv import load_dotenv
 from mcp.server.fastmcp import FastMCP
-from openai import OpenAI
+from openai import OpenAI, NotFoundError
 from agents import set_tracing_export_api_key
 
+from dotenv import load_dotenv, set_key
+load_dotenv()
 
 # Create server
 mcp = FastMCP("Search Server")
-_vector_store_id = ""
+_vector_store_id = os.environ.get("VECTOR_STORE_ID")
 
 
 def _run_rag(query: str) -> str:
@@ -16,6 +17,9 @@ def _run_rag(query: str) -> str:
     Args:
         query: The user query
     """
+    if not _vector_store_id:
+        raise Exception("Error: Vector store id is not available")
+
     results = client.vector_stores.search(
         vector_store_id=_vector_store_id,
         query=query,
@@ -85,6 +89,11 @@ def index_documents(directory: str):
     vector_store = client.vector_stores.create(name="Support FAQ")
     global _vector_store_id
     _vector_store_id = vector_store.id
+    set_key(
+        dotenv_path=".env",
+        key_to_set="VECTOR_STORE_ID",
+        value_to_set=vector_store.id
+    )
 
     for file_path in supported_files:
         # Upload each file to the vector store, ensuring the file handle is closed
@@ -97,15 +106,28 @@ def index_documents(directory: str):
 
 
 if __name__ == "__main__":
-    load_dotenv()
     openai_api_key = os.environ.get("OPENAI_API_KEY")
     if not openai_api_key:
         raise ValueError("OPENAI_API_KEY environment variable is not set")
     set_tracing_export_api_key(openai_api_key)
     client = OpenAI(api_key=openai_api_key)
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    samples_dir = os.path.join(current_dir, "sample_files")
-    index_documents(samples_dir)
+    def create_vector_store():
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        samples_dir = os.path.join(current_dir, "sample_files")
+        print("\nCreating new vector store and indexing files...")
+        index_documents(samples_dir)
+
+    # Check if files are alread indexed and a vector store exists
+    if _vector_store_id:
+        try:
+            response = client.vector_stores.retrieve(
+                vector_store_id=_vector_store_id
+            )
+        except NotFoundError as e:
+            print(f"Error: Vector store not found: {e}")
+            create_vector_store()
+    else:
+        create_vector_store()
 
     mcp.run(transport="sse")
